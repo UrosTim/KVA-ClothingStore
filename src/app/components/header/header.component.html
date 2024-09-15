@@ -1,0 +1,67 @@
+  <div class="header">
+    <div class="top-line">
+      <div class="logo" routerLink="/">
+        <svg class="cursor-pointer" width="4vh" id="logo" xmlns="http://www.w3.org/2000/svg" role="img"
+             viewBox="0 0 84 96">
+          <g transform="translate(-8.000000, -2.000000)">
+            <g transform="translate(11.000000, 5.000000)">
+              <polygon
+                id="Shape"
+                stroke="currentColor"
+                points="39 0 0 22 0 67 39 90 78 68 78 23"
+                fill="orange"
+              />
+              <text
+                x="17"
+                y="57"
+              >
+                CS
+              </text>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="search-bar">
+        <input
+          type="text"
+          placeholder="Search products..."
+          [(ngModel)]="searchTerm"
+          (keyup.enter)="onSearch($event)"
+        >
+      </div>
+      <div class="profile-link flex space-x-2">
+        @if (authService.isLoggedIn) {
+          <a *ngIf="authService.isAdmin" routerLink="/admin" class="border p-2 rounded-xl">
+            <fa-icon [icon]="faChartLine" size="xl"></fa-icon>
+          </a>
+          <a *ngIf="!authService.isAdmin" routerLink="/cart" class="border pt-2 px-4 rounded-xl">
+            <mat-icon>shopping_cart</mat-icon>
+          </a>
+          <a *ngIf="!authService.isAdmin" routerLink="/orders" class="border pt-2 px-4 rounded-xl">
+            Orders
+          </a>
+          <a routerLink="/profile" class="flex border py-2 px-4 rounded-xl">
+            <div class="pr-4">{{ authService.userName }}</div>
+            <fa-icon [icon]="faUser" size="xl"></fa-icon>
+          </a>
+          <a (click)="logout()" class="logout border border-red-700 p-2 rounded-xl cursor-pointer">
+            <fa-icon [icon]="faSignOut" size="xl"></fa-icon>
+          </a>
+        } @else {
+          <a routerLink="/login" class="border p-2 rounded-xl ">
+            Login
+          </a>
+          <a routerLink="/register" class="border p-2 rounded-xl">
+            Register
+          </a>
+        }
+      </div>
+    </div>
+    <div class="category-menu">
+      @for (category of categoryList; track $index) {
+        <div (click)="searchCategory(category._id!)">
+          <a class="cursor-pointer">{{ category.name }}</a>
+        </div>
+      }
+    </div>
+  </div>

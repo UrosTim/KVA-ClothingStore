@@ -1,0 +1,171 @@
+<div class="container mx-auto px-4 py-8">
+
+  @if (orderStep == 0) {
+    <!-- Cart Header -->
+    <header class="mb-8">
+      <h5 class="text-3xl font-bold text-gray-800">Shopping Cart</h5>
+    </header>
+
+    <!-- Cart Items -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+      <table class="w-full text-left">
+        <thead class="border-b border-orange-300">
+        <tr>
+          <th class="py-2 px-4 text-gray-600">Product</th>
+          <th class="py-2 px-4 text-gray-600">Price</th>
+          <th class="py-2 px-4 text-gray-600">Quantity</th>
+          <th class="py-2 px-4 text-gray-600">Total</th>
+          <th class="py-2 px-4 text-gray-600">Status</th>
+          <th class="py-2 px-4 text-gray-600">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Cart Item 1 -->
+          @for (item of cartItems; track $index) {
+
+            <tr class="border-b border-orange-300">
+              <td class="py-4 px-4 flex items-center">
+                <img [src]="item.product.images[0]" alt="Product Image"
+                     class="w-16 h-16 object-cover rounded-md mr-4">
+                <span class="text-gray-800">{{ item.product.name }}</span>
+              </td>
+              <td class="py-4 px-4 text-gray-600">
+                <div class="flex flex-col">
+                  <p class="text-sm font-light line-through text-orange-700">${{ item.product.price.toFixed(2) }}</p>
+                  <p class="text-lg font-light text-green-700">${{ sellingPrice(item.product).toFixed(2) }}</p>
+                </div>
+              </td>
+              <td class="py-4 px-4 space-x-2">
+              <span
+                class="inline-flex items-center justify-center w-5 h-5 text-white bg-red-700 rounded-full cursor-pointer hover:bg-red-600 transition duration-200 ease-in-out">
+            <span
+              (click)="addToCart(item.product._id!, -1)"
+              class="text-lg font-semibold">-</span>
+        </span>
+                <span class="text-gray-800">{{ item.quantity }}</span>
+                <span
+                  class="inline-flex items-center justify-center w-5 h-5 text-white bg-blue-700 rounded-full cursor-pointer hover:bg-blue-600 transition duration-200 ease-in-out">
+            <span
+              (click)="addToCart(item.product._id!, 1)"
+              class="text-lg font-semibold">+</span>
+        </span>
+              </td>
+              <td class="py-4 px-4 text-gray-600">${{ (sellingPrice(item.product) * item.quantity).toFixed(2) }}</td>
+              <td class="text-sm">Processing</td>
+              <td class="py-4 px-4">
+                <button
+                  (click)="removeFromCart(item.product._id!)"
+                  class="text-sm text-red-600 hover:text-red-700">
+                  Remove
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Cart Summary -->
+    <div class="bg-white rounded-lg shadow-md p-6 mt-8">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-gray-800 font-semibold">Subtotal:</span>
+        <span class="text-gray-600">${{ totalAmount.toFixed(2) }}</span>
+      </div>
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-gray-800 font-semibold">Shipping:</span>
+        <span class="text-gray-600">Calculated at checkout</span>
+      </div>
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-gray-800 font-semibold">Total:</span>
+        <span class="text-gray-800 text-xl">${{ totalAmount.toFixed(2) }}</span>
+      </div>
+      <button
+        (click)="checkout()"
+        class="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700">
+        Proceed to Checkout
+      </button>
+    </div>
+  } @else if (orderStep == 1) {
+    <div class="flex flex-col items-center w-1/2 mx-auto">
+      <header class="mb-8">
+        <h5 class="text-3xl font-bold text-gray-800">Enter shipping address</h5>
+      </header>
+
+      <div class="flex w-full items-start mb-8">
+        <button (click)="goBack()" mat-raised-button>Go back to cart</button>
+      </div>
+
+      <form [formGroup]="addressForm" class="space-y-4 w-full">
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Address</mat-label>
+          <input
+            type="text"
+            formControlName="address"
+            required
+            matInput
+            placeholder="Enter your address">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>City</mat-label>
+          <input
+            type="text"
+            formControlName="city"
+            required
+            matInput
+            placeholder="Enter your city">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Zip code</mat-label>
+          <input
+            type="text"
+            formControlName="zipCode"
+            matInput
+            required
+            placeholder="Enter your zip code">
+        </mat-form-field>
+
+        <div class="flex justify-center">
+          <button
+            (click)="addAddress()"
+            mat-raised-button
+            [disabled]="addressForm.invalid"
+          >
+            Proceed to payment
+          </button>
+        </div>
+      </form>
+    </div>
+  } @else if (orderStep == 2) {
+    <div class="flex flex-col items-center w-1/2 mx-auto">
+      <header class="mb-8">
+        <h5 class="text-3xl font-bold text-gray-800">Select payment method</h5>
+      </header>
+
+      <div class="flex w-full items-start mb-8">
+        <button (click)="goBack()" mat-raised-button>Go back</button>
+      </div>
+
+      <div class="w-full flex flex-col items-center">
+        <mat-radio-group
+          [(ngModel)]="paymentType"
+          class="flex flex-col w-2/3 items-start"
+          aria-label="Select an option">
+          <mat-radio-button class="border-b border-orange-300 w-full" value="cash">Cash</mat-radio-button>
+          <mat-radio-button disabled value="card">Card</mat-radio-button>
+          <mat-radio-button disabled value="gift">Gift Card</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="flex justify-center">
+        <button
+          (click)="submitOrder()"
+          mat-raised-button
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  }
+
+</div>

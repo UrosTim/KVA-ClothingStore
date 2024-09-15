@@ -1,0 +1,63 @@
+<div class="flex px-10 py-2 bg-gray-200 min-h-screen">
+  <div class="w-1/5 p-2">
+    <h5 class="p-6">Filters</h5>
+    <div class="flex flex-col">
+      <div class="w-full p-2 flex flex-col gap-4">
+        <mat-form-field class="w-full">
+          <mat-label>Category</mat-label>
+          <mat-select name="categoryId" [(ngModel)]="categoryId" (valueChange)="getProducts()">
+            @for (category of categories; track $index) {
+              <mat-option [value]="category._id">{{ category.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Brand</mat-label>
+          <mat-select name="brandId" [(ngModel)]="brandId" (valueChange)="getProducts()">
+            @for (brand of brands; track $index) {
+              <mat-option [value]="brand._id">{{ brand.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="w-full">
+    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
+      <div class="flex justify-between">
+        <h5>Products</h5>
+        <mat-form-field class="max-w-40">
+          <mat-label>Order by</mat-label>
+          <mat-select (valueChange)="onOrderChange($event)">
+            <mat-option [value]="1">Lowest price</mat-option>
+            <mat-option [value]="-1">Highest price</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+        @for (product of products | slice : 0  : pageSize; track $index) {
+          <app-product-card [product]="product"></app-product-card>
+        } @empty {
+          <h6>No products found.</h6>
+        }
+      </div>
+      <div class="flex space-x-4 justify-end items-baseline pt-12">
+        <button mat-raised-button [disabled]="pageNumber==1" (click)="pageChange(pageNumber-1)">Previous</button>
+        <p class="text-gray-600">{{pageNumber}}</p>
+        <button mat-raised-button [disabled]="products.length<this.pageSize" (click)="pageChange(pageNumber+1)">Next</button>
+        <!--      TODO Finish paginator-->
+        <!--      <mat-paginator-->
+        <!--        class="rounded-xl border border-orange-100"-->
+        <!--        [length]="products.length"-->
+        <!--        [pageSize]="8"-->
+        <!--        [pageIndex]="0"-->
+        <!--        [pageSizeOptions]="[4, 8, 16, 32]"-->
+        <!--        (page)="onPageChange($event)"-->
+        <!--        aria-label="Select page">-->
+        <!--      </mat-paginator>-->
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="group border border-orange-100 rounded-lg bg-white">
+  <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg xl:aspect-h-8 xl:aspect-w-7">
+    <img [src]="product.images[0]"
+         alt="Product Image"
+         class="h-full w-full object-cover object-center group-hover:opacity-75">
+  </div>
+  <h6 [routerLink]="'/product/' + product._id" class="pl-2 pt-2 mt-4 text-gray-700 cursor-pointer">{{ product.name }}</h6>
+  <div class="flex justify-between pr-4 items-end">
+    <div class="pl-4">
+      <p class="text-xl font-light text-green-700">${{ (this.product.price - (this.product.price * this.product.discount) / 100).toFixed(2) }}</p>
+      <div class="flex space-x-3">
+        <p class="text-sm font-light line-through text-orange-700">${{ product.price.toFixed(2) }}</p>
+        <p class="text-sm font-light text-gray-400">({{ product.discount }}% Off)</p>
+      </div>
+    </div>
+    <div class="pb-12 flex space-x-2">
+<!--      <button mat-mini-fab class="favorite">-->
+<!--&lt;!&ndash;      <button mat-mini-fab class="favorite" (click)="addToWishList(product)">&ndash;&gt;-->
+<!--&lt;!&ndash;        @if (isInWishlist(product)) {&ndash;&gt;-->
+<!--        @if (false) {-->
+<!--          <mat-icon>favorite</mat-icon>-->
+<!--        } @else {-->
+<!--          <mat-icon>favorite_bordered</mat-icon>-->
+<!--        }-->
+
+<!--      </button>-->
+<!--      <button mat-mini-fab>-->
+<!--        <mat-icon>shopping_cart</mat-icon>-->
+<!--      </button>-->
+    </div>
+  </div>
+</div>

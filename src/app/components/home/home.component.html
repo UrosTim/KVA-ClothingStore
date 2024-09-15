@@ -1,0 +1,40 @@
+<div class="py-8 px-20" style="background-color: #e9ecef">
+  <div class="">
+<!--    TODO: Make banner dynamic - new collection for banner images,
+              handle on BE with multer and make API to display
+-->
+    <owl-carousel-o [options]="customOptions">
+      @for (item of bannerImages;track $index) {
+        <ng-template carouselSlide>
+          <a href="#">
+            <img
+              alt="Banner Image"
+              [src]="item">
+          </a>
+        </ng-template>
+      }
+    </owl-carousel-o>
+  </div>
+  <div>
+    <div class="border-b-2 pb-12">
+      <h5 class="p-2 mx-auto">Featured product</h5>
+      <div class="flex flex-wrap gap-4 justify-between">
+        @for (product of featuredProducts | slice:0:4; track $index) {
+          <div class="w-1/5">
+            <app-product-card [product]="product"></app-product-card>
+          </div>
+        }
+      </div>
+    </div>
+    <div class="border-b-2 pt-8 pb-12">
+      <h5 class="p-2 mx-auto">New product</h5>
+      <div class="flex flex-wrap gap-4 justify-between">
+        @for (product of newProducts; track $index) {
+          <div class="w-1/5">
+            <app-product-card [product]="product"></app-product-card>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

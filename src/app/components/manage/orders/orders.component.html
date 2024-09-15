@@ -1,0 +1,80 @@
+<div class="flex space-x-8">
+  <app-admin-sidebar></app-admin-sidebar>
+  <div class="flex flex-col w-full items-center pt-12">
+    <div class="container">
+      <div class="w-full justify-start pb-6">
+        <h5>Manage orders</h5>
+        <h6>Total sales: {{ totalSales(orders) }}</h6>
+      </div>
+      @for (order of orders; track $index) {
+        <div>
+          <div class="border border-gray-200 rounded-2xl flex py-4 px-8 justify-between items-center">
+            <div class="flex items-center space-x-4">
+              <div>Address:</div>
+              <div class="flex flex-col">
+                <div>{{ order.address.address }}</div>
+                <div>{{ order.address.city }}, {{ order.address.zipCode }}</div>
+              </div>
+            </div>
+            <div>Total Price: ${{ totalPrice(order) }}</div>
+            <div>
+              Order status:
+              <mat-button-toggle-group [value]="order.status" name="status" class="text-white"
+                                       (change)="statusChanged($event, order)">
+                <mat-button-toggle value="Preparing">Preparing</mat-button-toggle>
+                <mat-button-toggle value="Shipping">Shipping</mat-button-toggle>
+                <mat-button-toggle value="Delivered">Delivered</mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+          </div>
+          <div class="bg-color rounded-2xl flex py-4 px-8 text-white justify-between">
+            <div>Order ID : <span class="font-light">{{ order._id }}</span></div>
+            <div>User ID : <span class="font-light">{{ order.userId }}</span></div>
+            <div>Order Date : <span class="font-light">{{ order.date | date:'MMM d, y, h:mm a' }}</span></div>
+          </div>
+          <div class="bg-gray-200 mb-8 shadow-md px-16 py-8 rounded-2xl">
+            <table class="w-full text-left">
+              <thead class="border-b border-orange-300">
+              <tr>
+                <th class="py-2 px-4 text-gray-600 w-2/5">Product</th>
+                <th class="py-2 px-4 text-gray-600">Price</th>
+                <th class="py-2 px-4 text-gray-600">Quantity</th>
+                <th class="py-2 px-4 text-gray-600">Total</th>
+              </tr>
+              </thead>
+              <tbody>
+              <!-- Cart Item 1 -->
+                @for (item of order.items; track $index) {
+
+                  <tr class="border-b border-orange-300">
+                    <td class="py-4 px-4 flex items-center">
+                      <img [src]="item.product.images[0]" alt="Product Image"
+                           class="w-16 h-16 object-cover rounded-md mr-4">
+                      <span class="text-gray-800">{{ item.product.name }}</span>
+                    </td>
+                    <td class="py-4 px-4 text-gray-600">
+                      <div class="flex flex-col">
+                        <p class="text-sm font-light line-through text-orange-700">
+                          ${{ item.product.price.toFixed(2) }}</p>
+                        <p class="text-lg font-light text-green-700">${{ sellingPrice(item.product).toFixed(2) }}</p>
+                      </div>
+                    </td>
+                    <td class="py-4 px-4 space-x-2">
+                      <span class="text-gray-800">{{ item.quantity }}</span>
+                    </td>
+                    <td class="py-4 px-4 text-gray-600">${{ (sellingPrice(item.product) * item.quantity).toFixed(2) }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!--  <div class="container min-h-screen">-->
+    <!--    <div class="w-full" id="chartContainer"></div>-->
+    <!--  </div>-->
+  </div>
+</div>

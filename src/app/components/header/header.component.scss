@@ -1,0 +1,80 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  background-color: #343a40;
+  padding: 10px;
+
+  .top-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px 20px 10px;
+
+    .logo {
+      font-size: 36px;
+      font-weight: bold;
+      color: #007bff;
+
+      &:hover {
+        color: white;
+        cursor: default;
+      }
+    }
+
+    .search-bar {
+      flex-grow: 1;
+      max-width: 25rem;
+      margin: 0 20px;
+
+      input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid orange;
+        border-radius: 7px;
+      }
+    }
+
+    .profile-link {
+      a {
+        text-decoration: none;
+        color: white;
+
+
+        &:hover {
+          color: white;
+          border-color: orange;
+          background-color: #222529;
+        }
+      }
+      .logout {
+        color: red;
+        border-color: red;
+
+        &:hover {
+          color: red;
+          border-color: darkred;
+        }
+      }
+    }
+  }
+
+  .category-menu {
+    display: flex;
+    font-weight: bold;
+    justify-content: space-around;
+    padding: 10px 0;
+    background-color: #e9ecef;
+    border-radius: 10px;
+
+    a {
+      text-decoration: none;
+      color: #343a40;
+      padding: 5px 10px;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: #dee2e6;
+      }
+    }
+  }
+}

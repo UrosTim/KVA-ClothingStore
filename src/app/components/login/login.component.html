@@ -1,0 +1,36 @@
+<div class="flex flex-col items-center justify-center pt-32 pb-96 bg-gray-200">
+  <div class="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
+    <div class="flex w-full justify-center">
+      <h5 class="font-semibold pb-8">Login</h5>
+    </div>
+    <form [formGroup]="loginForm" class="space-y-4 w-full">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Email</mat-label>
+        <input
+          formControlName="email"
+          required
+          matInput
+          placeholder="Enter your email">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Password</mat-label>
+        <input
+          formControlName="password"
+          matInput
+          type="password"
+          placeholder="Enter your password">
+      </mat-form-field>
+
+      <div class="flex justify-center">
+        <button
+          (click)="login()"
+          mat-raised-button
+          [disabled]="loginForm.invalid"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

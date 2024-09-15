@@ -1,0 +1,16 @@
+<div class="flex justify-center w-full h-screen pt-10 bg-gray-200">
+  <mat-card appearance="outlined" class="w-1/2 p-8 h-fit text-white" style="background-color: #343a40">
+    <mat-card-header>
+      <mat-card-title class="pb-8">Profile</mat-card-title>
+      <mat-card-subtitle class="pb-4" style="color: white">
+        Name: <span class="font-light pl-2" style="color: orange">{{ authService.userName }}</span>
+      </mat-card-subtitle>
+      <mat-card-subtitle class="pb-4" style="color: white">
+        Email: <span class="font-light pl-2" style="color: orange">{{ authService.userEmail }}</span>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions align="end">
+      <button mat-raised-button>Learn More</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
